@@ -8,6 +8,7 @@ import Items from "./components/items/Items";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
   console.log(items);
 
@@ -30,12 +31,14 @@ function App() {
       };
 
       setItems([...items, newItem]);
+      saveItemsToLocalStorage([...items, newItem]);
       setInputValue("");
     }
   };
 
   const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+    const updatedItems = items.filter((item) => item.id !== id);
+    setItems(updatedItems);
   };
 
   const toggleItem = (id) => {
@@ -43,11 +46,11 @@ function App() {
       prevItems.map((item) =>
         item.id === id
           ? { ...item, checked: true }
-          : item.checked
-          ? { ...item, checked: false }
-          : item
+          : { ...item, checked: false }
       )
     );
+    setSelectedItemId(id);
+    localStorage.setItem("selectedItemId", id.toString());
   };
 
   const saveItemsToLocalStorage = (items) => {
@@ -59,6 +62,17 @@ function App() {
     return storedItems ? JSON.parse(storedItems) : [];
   };
 
+  // Функція для додавання коментарів
+  const addCommentToItem = (itemId, comment) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId
+          ? { ...item, comments: [...(item.comments || []), comment] }
+          : item
+      )
+    );
+  };
+
   useEffect(() => {
     const storedItems = getItemsFromLocalStorage();
     if (storedItems.length > 0) {
@@ -67,16 +81,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const allUnchecked = items.every((item) => !item.checked);
-
-    if (allUnchecked && items.length > 0) {
-      const updatedItems = items.map((item, index) =>
-        index === 0 ? { ...item, checked: true } : item
-      );
-      setItems(updatedItems);
-    }
     saveItemsToLocalStorage(items);
   }, [items]);
+
+  useEffect(() => {
+    const storedSelectedItemId = localStorage.getItem("selectedItemId");
+    if (storedSelectedItemId) {
+      setSelectedItemId(parseInt(storedSelectedItemId, 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedItemId !== null) {
+      localStorage.setItem("selectedItemId", selectedItemId.toString());
+    }
+  }, [selectedItemId]);
 
   return (
     <div className="App">
@@ -90,7 +109,10 @@ function App() {
           removeItem={removeItem}
           toggleItem={toggleItem}
         />
-        <Comments />
+        <Comments
+          selectedItemId={selectedItemId}
+          addCommentToItem={addCommentToItem}
+        />
       </div>
     </div>
   );

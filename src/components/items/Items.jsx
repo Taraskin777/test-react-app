@@ -1,7 +1,8 @@
 import { useRef } from "react";
 
 import "./items.css";
-import ListItem from "../itemsList/ItemList";
+
+import ItemList from "../itemsList/ItemList";
 
 export default function Items(props) {
   const { item, items, addItems, handleInput, handleKeyDown, removeItem, toggleItem } =
@@ -27,7 +28,9 @@ export default function Items(props) {
           Add New
         </button>
       </div>
-      <ListItem items={items} removeItem={removeItem} toggleItem={toggleItem} />
+
+      {items.length > 0 && <ItemList items={items} removeItem={removeItem} toggleItem={toggleItem} />}
+      
     </div>
   );
 }
