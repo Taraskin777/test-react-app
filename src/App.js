@@ -31,13 +31,16 @@ function App() {
     }
   };
 
+  const removeItem = (id) => {
+    setItems(items.filter((item) => item.id !== id));
+  };
+
   const saveItemsToLocalStorage = (items) => {
     localStorage.setItem("items", JSON.stringify(items));
   };
 
   const getItemsFromLocalStorage = () => {
     const storedItems = localStorage.getItem("items");
-    console.log(storedItems);
     return storedItems ? JSON.parse(storedItems) : [];
   };
 
@@ -61,6 +64,7 @@ function App() {
           addItems={addItems}
           item={inputValue}
           items={items}
+          removeItem={removeItem}
         />
         <Comments />
       </div>
