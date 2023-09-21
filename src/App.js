@@ -112,6 +112,7 @@ function App() {
         <Comments
           selectedItemId={selectedItemId}
           addCommentToItem={addCommentToItem}
+          items={items}
         />
       </div>
     </div>

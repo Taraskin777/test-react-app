@@ -9,9 +9,9 @@ export default function Comments(props) {
   const [commentText, setCommentText] = useState("");
   const [commentColor, setCommentColor] = useState("#000");
 
- console.log(commentText, commentColor)
+  console.log(commentText, commentColor);
 
-  const { selectedItemId, addCommentToItem } = props;
+  const { selectedItemId, addCommentToItem, items } = props;
 
   const handleTextChange = (e) => {
     setCommentText(e.target.value);
@@ -27,21 +27,23 @@ export default function Comments(props) {
     }
 
     const newComment = {
+      id: Date.now(),
       text: commentText,
       color: commentColor,
     };
 
-    // Додаємо новий коментар до обраного елемента за допомогою функції addCommentToItem
     addCommentToItem(selectedItemId, newComment);
 
     setCommentText("");
     setCommentColor("#000");
   };
 
+  const selectedElement = items.find((item) => item.id === selectedItemId);
+
   return (
     <div className="commentsBox">
       <h1>Comments # {selectedItemId}</h1>
-      <CommentList />
+      <CommentList selectedElement={selectedElement} />
       <CommentInput
         handleAddComment={handleAddComment}
         handleColorChange={handleColorChange}
