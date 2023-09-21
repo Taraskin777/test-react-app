@@ -9,6 +9,8 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState([]);
 
+  console.log(items);
+
   const handleInput = (e) => {
     setInputValue(e.target.value);
   };
@@ -24,6 +26,7 @@ function App() {
       const newItem = {
         id: Date.now(),
         title: inputValue,
+        checked: items.length === 0,
       };
 
       setItems([...items, newItem]);
@@ -33,6 +36,18 @@ function App() {
 
   const removeItem = (id) => {
     setItems(items.filter((item) => item.id !== id));
+  };
+
+  const toggleItem = (id) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? { ...item, checked: true }
+          : item.checked
+          ? { ...item, checked: false }
+          : item
+      )
+    );
   };
 
   const saveItemsToLocalStorage = (items) => {
@@ -52,6 +67,14 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const allUnchecked = items.every((item) => !item.checked);
+
+    if (allUnchecked && items.length > 0) {
+      const updatedItems = items.map((item, index) =>
+        index === 0 ? { ...item, checked: true } : item
+      );
+      setItems(updatedItems);
+    }
     saveItemsToLocalStorage(items);
   }, [items]);
 
@@ -65,6 +88,7 @@ function App() {
           item={inputValue}
           items={items}
           removeItem={removeItem}
+          toggleItem={toggleItem}
         />
         <Comments />
       </div>

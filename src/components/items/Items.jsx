@@ -4,7 +4,7 @@ import "./items.css";
 import ListItem from "../itemsList/ItemList";
 
 export default function Items(props) {
-  const { item, items, addItems, handleInput, handleKeyDown, removeItem } =
+  const { item, items, addItems, handleInput, handleKeyDown, removeItem, toggleItem } =
     props;
 
   const inputRef = useRef();
@@ -27,7 +27,7 @@ export default function Items(props) {
           Add New
         </button>
       </div>
-      <ListItem items={items} removeItem={removeItem} />
+      <ListItem items={items} removeItem={removeItem} toggleItem={toggleItem} />
     </div>
   );
 }
