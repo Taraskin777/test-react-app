@@ -11,13 +11,14 @@ export default function CommentInput(props) {
 
   return (
     <div className="commentForm">
-      <input type="color" value={commentColor} onChange={handleColorChange} />
+      <input type="color" value={commentColor} onChange={handleColorChange} className="inputColor"/>
       <textarea
-        placeholder="Enter your comment..."
+        placeholder="Type comment here..."
         value={commentText}
         onChange={handleTextChange}
+        className="textArea"
       ></textarea>
-      <button onClick={handleAddComment}>Add Comment</button>
+      <button onClick={handleAddComment} className="addComment">Add New</button>
     </div>
   );
 }

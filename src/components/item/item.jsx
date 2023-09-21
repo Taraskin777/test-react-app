@@ -8,9 +8,12 @@ export default function Item(props) {
       className={`item ${checked ? "checked" : ""}`}
       onClick={() => toggleItem(id)}
     >
-      <div>{title}</div>
-      {comments ? comments.length : 0}
-      <button onClick={() => removeItem(id)}>Delete</button>
+      <div className="title">{title}</div>
+      <div className="counter">{comments ? comments.length : 0}</div>
+
+      <button className="deleteBtn" onClick={() => removeItem(id)}>
+        Delete
+      </button>
     </li>
   );
 }

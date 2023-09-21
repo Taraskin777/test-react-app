@@ -1,0 +1,15 @@
+.comment {
+   list-style: none;
+   display: flex;
+   margin: 10px 0 10px 0px;
+   background-color: white;
+}
+
+.colorBox {
+   width: 50px;
+   height: 50px;
+   margin-right: 10px;
+   padding: 10px;
+}
+
+

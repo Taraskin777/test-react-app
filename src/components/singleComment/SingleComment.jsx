@@ -5,7 +5,8 @@ export default function SingleComment(props) {
 
   return (
     <li className="comment" style={{ color: color }}>
-      {text}
+      <div className="colorBox" style={{ background: color }}></div>
+      <div style={{ color: color }}>{text}</div>
     </li>
   );
 }
